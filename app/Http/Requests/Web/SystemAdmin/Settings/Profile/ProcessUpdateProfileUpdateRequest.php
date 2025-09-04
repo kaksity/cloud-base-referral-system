@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Settings;
+namespace App\Http\Requests\Web\SystemAdmin\Settings\Profile;
 
 use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ProfileUpdateRequest extends FormRequest
+class ProcessUpdateProfileUpdateRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

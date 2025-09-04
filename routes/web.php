@@ -13,7 +13,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
-require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
 
 Route::prefix('system-admin')->group(__DIR__.'/Web/SystemAdmin/index.php');

@@ -6,7 +6,7 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class LocalGovernmentAreaSeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -14,9 +14,5 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(SystemAdminSeeder::class);
-        // $this->call(CountrySeeder::class);
-        // $this->call(StateSeeder::class);
-        // $this->call(LocalGovernmentAreaSeeder::class);
-        // $this->call(WardSeeder::class);
     }
 }
