@@ -2,23 +2,35 @@ import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
-import { displayOrganizationsView } from '@/routes/web/system-admin/organization';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { LayoutGrid } from 'lucide-react';
+import { User, Lock, ArrowLeft, ScreenShare } from 'lucide-react';
 import AppLogo from './app-logo';
+import { displayProfileView } from '@/routes/web/system-admin/settings/profile';
+import { displayChangePasswordView } from '@/routes/web/system-admin/settings/password';
+import { displayAppearanceView } from '@/routes/web/system-admin/settings/appearance';
+import { displayDashboardView } from '@/routes/web/system-admin/dashboard';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
+        href: displayDashboardView().url,
+        icon: ArrowLeft,
     },
     {
-        title: 'Organizations',
-        href: displayOrganizationsView(),
-        icon: LayoutGrid,
+        title: 'Profile',
+        href: displayProfileView(),
+        icon: User,
+    },
+    {
+        title: 'Password',
+        href: displayChangePasswordView(),
+        icon: Lock,
+    },
+    {
+        title: 'Appearance',
+        href: displayAppearanceView(),
+        icon: ScreenShare,
     },
 ];
 
@@ -31,7 +43,7 @@ export function SettingsSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboard()} prefetch>
+                            <Link href={displayDashboardView()} prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>

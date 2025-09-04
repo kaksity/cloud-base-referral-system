@@ -4,28 +4,25 @@ import AppearanceTabs from '@/components/appearance-tabs';
 import HeadingSmall from '@/components/heading-small';
 import { type BreadcrumbItem } from '@/types';
 
-import AppLayout from '@/layouts/app-layout';
-import SettingsLayout from '@/layouts/settings/layout';
-import { appearance } from '@/routes';
+import SettingsLayout from '@/layouts/settings-layout';
+import { displayAppearanceView } from '@/routes/web/system-admin/settings/appearance';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Appearance settings',
-        href: appearance().url,
+        href: displayAppearanceView().url,
     },
 ];
 
 export default function Appearance() {
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <SettingsLayout breadcrumbs={breadcrumbs}>
             <Head title="Appearance settings" />
-
-            <SettingsLayout>
-                <div className="space-y-6">
+                <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                     <HeadingSmall title="Appearance settings" description="Update your account's appearance settings" />
                     <AppearanceTabs />
                 </div>
-            </SettingsLayout>
-        </AppLayout>
+            
+        </SettingsLayout>
     );
 }
