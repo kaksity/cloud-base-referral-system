@@ -15,8 +15,9 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('organization_id')->index();
             $table->string('first_name');
-            $table->string('middle_name');
+            $table->string('middle_name')->nullable();
             $table->string('last_name');
+            $table->string('mobile_number')->nullable();
             $table->string('email');
             $table->string('password');
             $table->string('status')->default('active');

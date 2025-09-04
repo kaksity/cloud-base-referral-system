@@ -18,29 +18,30 @@ class ProcessCreateOrganizationController extends Controller
     public function __invoke(ProcessCreateOrganizationRequest $request)
     {
 
+        $validatedRequest = $request->validated();
 
-        DB::transaction(function () use ($request) {
+        ['created_organization' => $organization] = DB::transaction(function () use ($validatedRequest) {
 
-            $loggedInSystemAdmin = auth('web')->user();
+            $loggedInSystemAdmin = auth('system-admin')->user();
 
-            $organization = $this->createOrganizationAction->execute([
-                'added_by_system_admin_id' => $loggedInSystemAdmin->id,
-                'name' => $request->organization_name,
-            ]);
+            $organization = $this->createOrganizationAction->execute(
+                array_merge($validatedRequest['organization'], [
+                    'added_by_system_admin_id' => $loggedInSystemAdmin->id,
+                ])
+            );
 
             $password = generateRandomString();
-            $this->createOrganizationAdminAction->execute([
-                'organization_id' => $organization->id,
-                'first_name' => $request->first_name,
-                'middle_name' => $request->middle_name,
-                'last_name' => $request->last_name,
-                'email' => $request->email,
-                'password' => Hash::make($password),
-            ]);
+
+            $this->createOrganizationAdminAction->execute(
+                array_merge($validatedRequest['organization_admin'], [
+                    'organization_id' => $organization->id,
+                    'password' => Hash::make($password),
+                ])
+            );
 
             return ['created_organization' => $organization, 'generated_password' => $password];
         });
 
-        return back();
+        return redirect()->route('web.system-admin.organization.display-organization-view', $organization->id);
     }
 }

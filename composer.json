@@ -30,7 +30,13 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Common/Helpers/ApiHelperMethods.php",
+            "app/Common/Helpers/DatabaseHelperMember.php",
+            "app/Common/Helpers/DateHelperMethods.php",
+            "app/Common/Helpers/StringHelperMethods.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

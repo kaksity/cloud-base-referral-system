@@ -15,6 +15,10 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('added_by_system_admin_id')->index();
             $table->string('name');
+            $table->string('acronym');
+            $table->text('description');
+            $table->string('office_address');
+            $table->string('official_email');
             $table->string('logo_url')->nullable();
             $table->string('status')->default('active');
             $table->timestamps();

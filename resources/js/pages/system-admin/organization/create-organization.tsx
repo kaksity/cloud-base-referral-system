@@ -1,20 +1,21 @@
-import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
-import { type BreadcrumbItem, } from '@/types';
-import { Transition } from '@headlessui/react';
+import { type BreadcrumbItem } from '@/types';
 import { Form, Head } from '@inertiajs/react';
-
 import HeadingSmall from '@/components/heading-small';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
-import { edit } from '@/routes/profile';
+import { displayOrganizationsView } from '@/routes/web/system-admin/organization';
+import { Link } from '@inertiajs/react';
+import { ChevronDown } from 'lucide-react';
+import ProcessCreateOrganizationController from '@/actions/App/Http/Controllers/Web/SystemAdmin/Organization/ProcessCreateOrganizationController';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Create Organization',
-        href: edit().url,
+        href: displayOrganizationsView().url,
     },
 ];
 
@@ -23,88 +24,142 @@ export default function CreateOrganization() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Create Organization" />
 
-            <div className="max-w-3xl space-y-10 p-6">
-                {/* Organization section */}
-                <HeadingSmall
-                    title="Organization Information"
-                    description="Provide the details of the organization you want to create."
-                />
+            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+                <HeadingSmall title="Organization Information" description="Provide the details of the organization you want to create." />
 
-                <Form
-                    {...ProfileController.update.form()}
-                    options={{
-                        preserveScroll: true,
-                    }}
-                    className="space-y-8"
-                >
-                    {({ processing, recentlySuccessful, errors }) => (
+                <Form {...ProcessCreateOrganizationController.form()} options={{ preserveScroll: true }} className="space-y-8">
+                    {({ processing, errors }) => (
                         <>
-                            <div className="flex flex-col space-y-1.5">
-                                <Label htmlFor="organization_name">Organization Name</Label>
-                                <Input
-                                    id="organization_name"
-                                    name="organization_name"
-                                    required
-                                    placeholder="Acme Corporation"
-                                />
-                                <InputError message={errors.organization_name} />
-                            </div>
+                            <Collapsible defaultOpen className="w-full rounded-lg border shadow-sm">
+                                <CollapsibleTrigger asChild>
+                                    <button
+                                        type="button"
+                                        className="flex w-full items-center justify-between border-b px-6 py-4 text-left transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
+                                    >
+                                        <div>
+                                            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Basic Information</h3>
+                                            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                                General details about the organization such as name, acronym, description, and contact details.
+                                            </p>
+                                        </div>
+                                        <ChevronDown className="h-5 w-5 transition-transform duration-200 data-[state=open]:rotate-180" />
+                                    </button>
+                                </CollapsibleTrigger>
 
-                            <div className="space-y-6">
-                                <HeadingSmall
-                                    title="Contact Person (Admin)"
-                                    description="Enter the details of the person who will manage this organization."
-                                />
+                                <CollapsibleContent className="w-full px-6 pt-4 pb-6">
+                                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                        <div className="flex flex-col space-y-1.5">
+                                            <Label htmlFor="organization.name">Organization Name</Label>
+                                            <Input id="organization.name" name="organization.name" placeholder="Acme Corporation" />
+                                            <InputError message={errors['organization.name']} />
+                                        </div>
 
-                                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                                    {/* First name */}
-                                    <div className="flex flex-col space-y-1.5">
-                                        <Label htmlFor="first_name">First Name</Label>
-                                        <Input id="first_name" name="first_name" required placeholder="John" />
-                                        <InputError message={errors.first_name} />
+                                        <div className="flex flex-col space-y-1.5">
+                                            <Label htmlFor="organization.acronym">Organization Acronym</Label>
+                                            <Input id="organization.acronym" name="organization.acronym" placeholder="ACME" />
+                                            <InputError message={errors['organization.acronym']} />
+                                        </div>
+
+                                        <div className="flex flex-col space-y-1.5 md:col-span-2">
+                                            <Label htmlFor="organization.description">Organization Description / Mission</Label>
+                                            <Input id="organization.description" name="organization.description" placeholder="Our mission is to..." />
+                                            <InputError message={errors['organization.description']} />
+                                        </div>
+
+                                        <div className="flex flex-col space-y-1.5">
+                                            <Label htmlFor="organization.office_address">Office Address</Label>
+                                            <Input
+                                                id="organization.office_address"
+                                                name="organization.office_address"
+                                                placeholder="123 Main Street"
+                                            />
+                                            <InputError message={errors['organization.office_address']} />
+                                        </div>
+
+                                        <div className="flex flex-col space-y-1.5">
+                                            <Label htmlFor="organization.official_email">Official Email</Label>
+                                            <Input
+                                                id="organization.official_email"
+                                                name="organization.official_email"
+                                                type="email"
+                                                placeholder="info@acme.org"
+                                            />
+                                            <InputError message={errors['organization.official_email']} />
+                                        </div>
                                     </div>
+                                </CollapsibleContent>
+                            </Collapsible>
 
-                                    {/* Middle name */}
-                                    <div className="flex flex-col space-y-1.5">
-                                        <Label htmlFor="middle_name">Middle Name</Label>
-                                        <Input id="middle_name" name="middle_name" placeholder="A." />
-                                        <InputError message={errors.middle_name} />
+                            <Collapsible defaultOpen className="w-full rounded-lg border shadow-sm">
+                                <CollapsibleTrigger asChild>
+                                    <button
+                                        type="button"
+                                        className="flex w-full items-center justify-between border-b px-6 py-4 text-left transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
+                                    >
+                                        <div>
+                                            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Organization Admin Information</h3>
+                                            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                                This will create the admin account for the organization.
+                                            </p>
+                                        </div>
+                                        <ChevronDown className="h-5 w-5 transition-transform duration-200 data-[state=open]:rotate-180" />
+                                    </button>
+                                </CollapsibleTrigger>
+
+                                <CollapsibleContent className="w-full px-6 pt-4 pb-6">
+                                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                        <div className="flex flex-col space-y-1.5">
+                                            <Label htmlFor="organization_admin.first_name">First Name</Label>
+                                            <Input id="organization_admin.first_name" name="organization_admin.first_name" placeholder="John" />
+                                            <InputError message={errors['organization_admin.first_name']} />
+                                        </div>
+
+                                        <div className="flex flex-col space-y-1.5">
+                                            <Label htmlFor="organization_admin.last_name">Last Name</Label>
+                                            <Input id="organization_admin.last_name" name="organization_admin.last_name" placeholder="Doe" />
+                                            <InputError message={errors['organization_admin.last_name']} />
+                                        </div>
+
+                                        <div className="flex flex-col space-y-1.5">
+                                            <Label htmlFor="organization_admin.middle_name">Middle Name</Label>
+                                            <Input id="organization_admin.middle_name" name="organization_admin.middle_name" placeholder="M." />
+                                            <InputError message={errors['organization_admin.middle_name']} />
+                                        </div>
+
+                                        <div className="flex flex-col space-y-1.5">
+                                            <Label htmlFor="organization_admin.email">Admin Email</Label>
+                                            <Input
+                                                id="organization_admin.email"
+                                                name="organization_admin.email"
+                                                type="email"
+                                                placeholder="admin@acme.org"
+                                            />
+                                            <InputError message={errors['organization_admin.email']} />
+                                        </div>
+
+                                        <div className="flex flex-col space-y-1.5">
+                                            <Label htmlFor="organization_admin.mobile_number">Admin Phone</Label>
+                                            <Input
+                                                id="organization_admin.mobile_number"
+                                                name="organization_admin.mobile_number"
+                                                placeholder="+234 801 234 5678"
+                                            />
+                                            <InputError message={errors['organization_admin.mobile_number']} />
+                                        </div>
                                     </div>
+                                </CollapsibleContent>
+                            </Collapsible>
 
-                                    {/* Last name */}
-                                    <div className="flex flex-col space-y-1.5">
-                                        <Label htmlFor="last_name">Last Name</Label>
-                                        <Input id="last_name" name="last_name" required placeholder="Doe" />
-                                        <InputError message={errors.last_name} />
-                                    </div>
-
-                                    {/* Email */}
-                                    <div className="flex flex-col space-y-1.5">
-                                        <Label htmlFor="email">Email Address</Label>
-                                        <Input
-                                            id="email"
-                                            type="email"
-                                            name="email"
-                                            required
-                                            placeholder="admin@acme.org"
-                                        />
-                                        <InputError message={errors.email} />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="flex items-center justify-between border-t border-neutral-200 pt-4">
-                                <Button disabled={processing}>Create Organization</Button>
-
-                                <Transition
-                                    show={recentlySuccessful}
-                                    enter="transition-opacity duration-300"
-                                    enterFrom="opacity-0"
-                                    leave="transition-opacity duration-500"
-                                    leaveTo="opacity-0"
+                            <div className="mt-4 flex items-center justify-end gap-4">
+                                <Button type="submit" disabled={processing}>
+                                    Save
+                                </Button>
+                                <Link
+                                    href={displayOrganizationsView().url}
+                                    className="rounded-md border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
                                 >
-                                    <p className="text-sm font-medium text-green-600">✓ Saved</p>
-                                </Transition>
+                                    Cancel
+                                </Link>
                             </div>
                         </>
                     )}

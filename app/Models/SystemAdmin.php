@@ -11,28 +11,8 @@ use Illuminate\Notifications\Notifiable;
 class SystemAdmin extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasUuids,HasFactory, Notifiable, SoftDeletes;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    use HasUuids, HasFactory, Notifiable, SoftDeletes;
+    protected $guarded = [];
 
     /**
      * Get the attributes that should be cast.
