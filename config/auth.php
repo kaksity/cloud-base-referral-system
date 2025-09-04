@@ -40,6 +40,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'system-admin' => [
+            'driver' => 'session',
+            'provider' => 'system-admins',
+        ],
+        'organization-admin' => [
+            'driver' => 'session',
+            'provider' => 'organization-admins',
+        ],
     ],
 
     /*
@@ -64,7 +72,14 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
-
+        'system-admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\SystemAdmin::class,
+        ],
+        'organization-admins' => [
+            'driver' => 'eloquent',
+            'model' =>  App\Models\OrganizationAdmin::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

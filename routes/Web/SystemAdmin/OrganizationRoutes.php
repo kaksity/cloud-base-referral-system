@@ -5,6 +5,6 @@ use App\Http\Controllers\Web\SystemAdmin\Organization\ProcessCreateOrganizationC
 use Illuminate\Support\Facades\Route;
 
 Route::group([], function () {
-    Route::get('/process/create/organization', ProcessCreateOrganizationController::class)->name('web.system-admin.organization.process-create-organization');
+    Route::post('/process/create/organization', ProcessCreateOrganizationController::class)->name('web.system-admin.organization.process-create-organization');
     Route::get('create/organization', DisplayCreateOrganizationViewController::class)->name('web.system-admin.organization.display-create-organization-view');
 });
