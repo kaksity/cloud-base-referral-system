@@ -8,6 +8,7 @@ import { displayCountriesView } from '@/routes/web/system-admin/settings/country
 import { displayChangePasswordView } from '@/routes/web/system-admin/settings/password';
 import { displayProfileView } from '@/routes/web/system-admin/settings/profile';
 import { displaySectorsView } from '@/routes/web/system-admin/settings/sector';
+import { displayStatesView } from '@/routes/web/system-admin/settings/state';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { ArrowLeft, Lock, ScreenShare, User } from 'lucide-react';
@@ -32,6 +33,11 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Country',
         href: displayCountriesView(),
+        icon: Lock,
+    },
+    {
+        title: 'State',
+        href: displayStatesView(),
         icon: Lock,
     },
     {
