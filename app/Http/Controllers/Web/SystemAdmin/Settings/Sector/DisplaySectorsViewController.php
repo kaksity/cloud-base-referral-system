@@ -24,7 +24,7 @@ class DisplaySectorsViewController extends Controller
 
         $mutatedSectors = FetchSectorsResource::collection($sectors)->resolve();
 
-        return inertia('system-admin/settings/sectors/index', [
+        return inertia('system-admin/settings/sector/index', [
             'sectors' => $mutatedSectors,
             'paginationPayload' => $paginationPayload
         ]);

@@ -4,6 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { displayDashboardView } from '@/routes/web/system-admin/dashboard';
 import { displayAppearanceView } from '@/routes/web/system-admin/settings/appearance';
+import { displayCountriesView } from '@/routes/web/system-admin/settings/country';
 import { displayChangePasswordView } from '@/routes/web/system-admin/settings/password';
 import { displayProfileView } from '@/routes/web/system-admin/settings/profile';
 import { displaySectorsView } from '@/routes/web/system-admin/settings/sector';
@@ -26,6 +27,11 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Password',
         href: displayChangePasswordView(),
+        icon: Lock,
+    },
+    {
+        title: 'Country',
+        href: displayCountriesView(),
         icon: Lock,
     },
     {

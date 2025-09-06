@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\Web\SystemAdmin\Settings\Appearance\DisplayAppearanceViewController;
+use App\Http\Controllers\Web\SystemAdmin\Settings\Country\DisplayCountriesViewController;
+use App\Http\Controllers\Web\SystemAdmin\Settings\Country\ProcessCreateCountryController;
+use App\Http\Controllers\Web\SystemAdmin\Settings\Country\ProcessDeleteCountryController;
+use App\Http\Controllers\Web\SystemAdmin\Settings\Country\ProcessUpdateCountryController;
 use App\Http\Controllers\Web\SystemAdmin\Settings\Password\DisplayChangePasswordViewController;
 use App\Http\Controllers\Web\SystemAdmin\Settings\Password\ProcessChangePasswordController;
 use App\Http\Controllers\Web\SystemAdmin\Settings\Profile\DisplayProfileViewController;
@@ -30,5 +34,13 @@ Route::group(['middleware' => ['auth:system-admin']], function () {
         Route::delete('/process/delete/sector/{sectorId}', ProcessDeleteSectorController::class)->name('web.system-admin.settings.sector.process-delete-sector');
         Route::patch('/process/update/sector/{sectorId}', ProcessUpdateSectorController::class)->name('web.system-admin.settings.sector.process-update-sector');
     });
+
+    Route::group(['prefix' => 'country'], function () {
+        Route::get('/', DisplayCountriesViewController::class)->name('web.system-admin.settings.country.display-countries-view');
+        Route::post('/process/create/country', ProcessCreateCountryController::class)->name('web.system-admin.settings.country.process-create-country');
+        Route::delete('/process/delete/country/{countryId}', ProcessDeleteCountryController::class)->name('web.system-admin.settings.country.process-delete-country');
+        Route::patch('/process/update/country/{countryId}', ProcessUpdateCountryController::class)->name('web.system-admin.settings.country.process-update-country');
+    });
+
     Route::get('appearance', DisplayAppearanceViewController::class)->name('web.system-admin.settings.appearance.display-appearance-view');
 });
