@@ -22,7 +22,7 @@ export default function AboutOrganizationTabPane({
 }) {
     console.log(basicInformation);
     return (
-        <div className="rounded-lg border p-4 shadow">
+        <div className="rounded-lg p-4">
             <div className="flex flex-1 flex-col gap-6 p-4">
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
                     <Avatar avatar={{ id: organizationId, name: basicInformation.name }} />

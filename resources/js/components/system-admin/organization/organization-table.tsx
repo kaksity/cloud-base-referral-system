@@ -3,7 +3,9 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
+import { displayOrganizationView } from '@/routes/web/system-admin/organization';
 import { Button } from '@headlessui/react';
+import { Link } from '@inertiajs/react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@radix-ui/react-select';
 import {
@@ -200,15 +202,17 @@ export default function OrganizationTable({
                     <TableBody>
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
-                                <TableRow
-                                    key={row.id}
-                                    data-state={row.getIsSelected() && 'selected'}
-                                    className="hover:bg-transparent data-[state=selected]:bg-transparent"
-                                >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                                    ))}
-                                </TableRow>
+                                <Link href={displayOrganizationView({ organizationId: row.original.id })}>
+                                    <TableRow
+                                        key={row.id}
+                                        data-state={row.getIsSelected() && 'selected'}
+                                        className="hover:bg-transparent data-[state=selected]:bg-transparent"
+                                    >
+                                        {row.getVisibleCells().map((cell) => (
+                                            <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                                        ))}
+                                    </TableRow>
+                                </Link>
                             ))
                         ) : (
                             <TableRow className="hover:bg-transparent data-[state=selected]:bg-transparent">
@@ -225,7 +229,7 @@ export default function OrganizationTable({
                 </Table>
             </div>
 
-            <div className="flex items-center justify-between px-2 sticky bottom-0 border-t py-3">
+            <div className="sticky bottom-0 flex items-center justify-between border-t px-2 py-3">
                 <div className="flex items-center space-x-6 lg:space-x-8">
                     <div className="flex items-center space-x-2">
                         <p className="text-sm font-medium">Rows per page</p>

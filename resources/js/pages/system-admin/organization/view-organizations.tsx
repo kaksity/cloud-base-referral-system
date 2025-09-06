@@ -1,6 +1,5 @@
 import OrganizationTable from '@/components/system-admin/organization/organization-table';
 import AppLayout from '@/layouts/app-layout';
-import { dashboard } from '@/routes';
 import { displayCreateOrganizationView } from '@/routes/web/system-admin/organization';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
@@ -8,7 +7,7 @@ import { Head, Link } from '@inertiajs/react';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
-        href: dashboard().url,
+        href: displayCreateOrganizationView().url,
     },
 ];
 

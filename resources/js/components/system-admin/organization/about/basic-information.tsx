@@ -20,7 +20,7 @@ export default function BasicInformation({ basicInformation, organizationId }: {
     const [showBasicInformationModal, setShowBasicInformationModal] = useState(false);
 
     return (
-        <div className="rounded-lg border p-6 shadow-lg lg:col-span-3">
+        <div className="rounded-lg border p-6 lg:col-span-3">
             <div className="mb-2 flex items-start justify-between">
                 <div>
                     <h3 className="text-lg font-semibold">Personal Information</h3>

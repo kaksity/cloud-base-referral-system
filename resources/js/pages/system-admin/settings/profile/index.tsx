@@ -1,5 +1,4 @@
 import ProcessUpdateProfileController from '@/actions/App/Http/Controllers/Web/SystemAdmin/Settings/Profile/ProcessUpdateProfileController';
-import DeleteUser from '@/components/delete-user';
 import HeadingSmall from '@/components/heading-small';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -109,7 +108,6 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                         </>
                     )}
                 </Form>
-                <DeleteUser />
             </div>
         </SettingsLayout>
     );

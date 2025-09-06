@@ -2,14 +2,15 @@ import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { displayDashboardView } from '@/routes/web/system-admin/dashboard';
+import { displayAppearanceView } from '@/routes/web/system-admin/settings/appearance';
+import { displayChangePasswordView } from '@/routes/web/system-admin/settings/password';
+import { displayProfileView } from '@/routes/web/system-admin/settings/profile';
+import { displaySectorsView } from '@/routes/web/system-admin/settings/sector';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { User, Lock, ArrowLeft, ScreenShare } from 'lucide-react';
+import { ArrowLeft, Lock, ScreenShare, User } from 'lucide-react';
 import AppLogo from './app-logo';
-import { displayProfileView } from '@/routes/web/system-admin/settings/profile';
-import { displayChangePasswordView } from '@/routes/web/system-admin/settings/password';
-import { displayAppearanceView } from '@/routes/web/system-admin/settings/appearance';
-import { displayDashboardView } from '@/routes/web/system-admin/dashboard';
 
 const mainNavItems: NavItem[] = [
     {
@@ -25,6 +26,11 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Password',
         href: displayChangePasswordView(),
+        icon: Lock,
+    },
+    {
+        title: 'Sector',
+        href: displaySectorsView(),
         icon: Lock,
     },
     {
