@@ -5,6 +5,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { displayDashboardView } from '@/routes/web/system-admin/dashboard';
 import { displayAppearanceView } from '@/routes/web/system-admin/settings/appearance';
 import { displayCountriesView } from '@/routes/web/system-admin/settings/country';
+import { displayLocalGovernmentAreasView } from '@/routes/web/system-admin/settings/local-government-area';
 import { displayChangePasswordView } from '@/routes/web/system-admin/settings/password';
 import { displayProfileView } from '@/routes/web/system-admin/settings/profile';
 import { displaySectorsView } from '@/routes/web/system-admin/settings/sector';
@@ -38,6 +39,11 @@ const mainNavItems: NavItem[] = [
     {
         title: 'State',
         href: displayStatesView(),
+        icon: Lock,
+    },
+    {
+        title: 'Local Government Area',
+        href: displayLocalGovernmentAreasView(),
         icon: Lock,
     },
     {

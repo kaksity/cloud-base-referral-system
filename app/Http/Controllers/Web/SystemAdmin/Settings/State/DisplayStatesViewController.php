@@ -6,7 +6,7 @@ use App\Actions\Country\ListCountriesAction;
 use App\Actions\State\ListStatesAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\SystemAdmin\Settings\State\FetchStatesRequest;
-use App\Http\Resources\Web\SystemAdmin\Common\FetchCountriesResource;
+use App\Http\Resources\Web\SystemAdmin\Common\Location\FetchCountriesResource;
 use App\Http\Resources\Web\SystemAdmin\Settings\State\FetchStatesResource;
 
 class DisplayStatesViewController extends Controller

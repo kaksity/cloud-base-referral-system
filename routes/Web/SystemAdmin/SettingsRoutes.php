@@ -5,6 +5,10 @@ use App\Http\Controllers\Web\SystemAdmin\Settings\Country\DisplayCountriesViewCo
 use App\Http\Controllers\Web\SystemAdmin\Settings\Country\ProcessCreateCountryController;
 use App\Http\Controllers\Web\SystemAdmin\Settings\Country\ProcessDeleteCountryController;
 use App\Http\Controllers\Web\SystemAdmin\Settings\Country\ProcessUpdateCountryController;
+use App\Http\Controllers\Web\SystemAdmin\Settings\LocalGovernmentArea\DisplayLocalGovernmentAreasViewController;
+use App\Http\Controllers\Web\SystemAdmin\Settings\LocalGovernmentArea\ProcessCreateLocalGovernmentAreaController;
+use App\Http\Controllers\Web\SystemAdmin\Settings\LocalGovernmentArea\ProcessDeleteLocalGovernmentAreaController;
+use App\Http\Controllers\Web\SystemAdmin\Settings\LocalGovernmentArea\ProcessUpdateLocalGovernmentAreaController;
 use App\Http\Controllers\Web\SystemAdmin\Settings\Password\DisplayChangePasswordViewController;
 use App\Http\Controllers\Web\SystemAdmin\Settings\Password\ProcessChangePasswordController;
 use App\Http\Controllers\Web\SystemAdmin\Settings\Profile\DisplayProfileViewController;
@@ -51,6 +55,13 @@ Route::group(['middleware' => ['auth:system-admin']], function () {
         Route::post('/process/create/state', ProcessCreateStateController::class)->name('web.system-admin.settings.state.process-create-state');
         Route::delete('/process/delete/state/{stateId}', ProcessDeleteStateController::class)->name('web.system-admin.settings.state.process-delete-state');
         Route::patch('/process/update/state/{stateId}', ProcessUpdateStateController::class)->name('web.system-admin.settings.state.process-update-state');
+    });
+
+    Route::group(['prefix' => 'local-government-area'], function () {
+        Route::get('/', DisplayLocalGovernmentAreasViewController::class)->name('web.system-admin.settings.local-government-area.display-local-government-areas-view');
+        Route::post('/process/create/local-government-area', ProcessCreateLocalGovernmentAreaController::class)->name('web.system-admin.settings.local-government-area.process-create-local-government-area');
+        Route::delete('/process/delete/local-government-area/{localGovernmentAreaId}', ProcessDeleteLocalGovernmentAreaController::class)->name('web.system-admin.settings.local-government-area.process-delete-local-government-area');
+        Route::patch('/process/update/local-government-area/{localGovernmentAreaId}', ProcessUpdateLocalGovernmentAreaController::class)->name('web.system-admin.settings.local-government-area.process-update-state');
     });
 
     Route::get('appearance', DisplayAppearanceViewController::class)->name('web.system-admin.settings.appearance.display-appearance-view');

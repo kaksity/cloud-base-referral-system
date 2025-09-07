@@ -19,6 +19,10 @@ class ListStatesAction
             ->with($relationships)
             ->orderBy('created_at', 'asc');
 
+        if (!empty($filterRecordOptionsPayload['country_id'])) {
+            $query->where('country_id', $filterRecordOptionsPayload['country_id']);
+        }
+
         if ($paginationPayload) {
             $paginatedStates = $query->paginate(
                 $paginationPayload['limit'] ?? config('businessConfig.default_page_limit'),

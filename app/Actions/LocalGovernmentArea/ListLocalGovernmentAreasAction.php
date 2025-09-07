@@ -15,9 +15,18 @@ class ListLocalGovernmentAreasAction
         $paginationPayload = $listLocalGovernmentAreasRecordOptions['pagination_payload'] ?? null;
         $filterRecordOptionsPayload = $listLocalGovernmentAreasRecordOptions['filter_record_options_payload'] ?? null;
 
+
         $query = $this->localGovernmentArea->query()
             ->with($relationships)
             ->orderBy('created_at', 'asc');
+
+        if (!empty($filterRecordOptionsPayload['country_id'])) {
+            $query->where('country_id', $filterRecordOptionsPayload['country_id']);
+        }
+
+        if (!empty($filterRecordOptionsPayload['state_id'])) {
+            $query->where('state_id', $filterRecordOptionsPayload['state_id']);
+        }
 
         if ($paginationPayload) {
             $paginatedLocalGovernmentAreas = $query->paginate(
