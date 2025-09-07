@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('organization_admins', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('organization_id')->index();
+            $table->uuid('added_by_system_admin_id')->index();
             $table->string('first_name');
             $table->string('middle_name')->nullable();
             $table->string('last_name');

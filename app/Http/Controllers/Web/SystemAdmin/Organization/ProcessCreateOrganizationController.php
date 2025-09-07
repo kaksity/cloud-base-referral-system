@@ -35,6 +35,7 @@ class ProcessCreateOrganizationController extends Controller
             $this->createOrganizationAdminAction->execute(
                 array_merge($validatedRequest['organization_admin'], [
                     'organization_id' => $organization->id,
+                    'added_by_system_admin_id' => $loggedInSystemAdmin->id,
                     'password' => Hash::make($password),
                 ])
             );

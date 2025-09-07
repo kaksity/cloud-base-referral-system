@@ -14,6 +14,15 @@ class OrganizationAdmin extends Authenticatable
     use HasUuids, HasFactory, Notifiable, SoftDeletes;
     protected $guarded = [];
 
+    public function addedBySystemAdmin()
+    {
+        return $this->belongsTo(SystemAdmin::class, 'added_by_system_admin_id');
+    }
+
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class, 'organization_id');
+    }
 
     /**
      * Get the attributes that should be cast.

@@ -18,6 +18,13 @@ class ListOrganizationAdminsAction
         $query = $this->organizationAdmin->query()
             ->with($relationships)
             ->orderBy('created_at', 'asc');
+        if (!empty($filterRecordOptionsPayload['organization_id'])) {
+            $query->where('organization_id', $filterRecordOptionsPayload['organization_id']);
+        }
+
+        if (!empty($filterRecordOptionsPayload['added_by_system_admin_id'])) {
+            $query->where('added_by_system_admin_id', $filterRecordOptionsPayload['added_by_system_admin_id']);
+        }
 
         if ($paginationPayload) {
             $paginatedOrganizationAdmins = $query->paginate(

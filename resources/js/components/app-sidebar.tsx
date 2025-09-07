@@ -2,12 +2,13 @@ import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { displayDashboardView } from '@/routes/web/system-admin/dashboard';
 import { displayOrganizationsView } from '@/routes/web/system-admin/organization';
+import { displayOrganizationAdminsView } from '@/routes/web/system-admin/organization-admin';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { LayoutGrid } from 'lucide-react';
+import { Building, LayoutGrid, User } from 'lucide-react';
 import AppLogo from './app-logo';
-import { displayDashboardView } from '@/routes/web/system-admin/dashboard';
 
 const mainNavItems: NavItem[] = [
     {
@@ -16,9 +17,14 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'Organizations',
+        title: 'Organization',
         href: displayOrganizationsView(),
-        icon: LayoutGrid,
+        icon: Building,
+    },
+    {
+        title: 'Organization Admin',
+        href: displayOrganizationAdminsView(),
+        icon: User,
     },
 ];
 

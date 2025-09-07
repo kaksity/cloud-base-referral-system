@@ -10,7 +10,7 @@ use App\Http\Resources\Web\SystemAdmin\Organization\FetchOrganizationsResource;
 class DisplayOrganizationsViewController extends Controller
 {
     public function __construct(
-        private ListOrganizationsAction $listOrganizationsAction
+        private ListOrganizationsAction $listOrganizationsAction,
     ) {}
     public function __invoke(FetchOrganizationsRequest $request)
     {

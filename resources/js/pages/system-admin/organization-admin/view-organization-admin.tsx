@@ -1,10 +1,7 @@
-import AboutOrganizationTabPane from '@/components/system-admin/organization/about-organization-tab-pane';
-import OrganizationAdminTabPane from '@/components/system-admin/organization/organization-admin-tab-pane';
+import AboutOrganizationAdminTabPane from '@/components/system-admin/organization-admin/about-organization-admin-tab-pane';
 import Tab from '@/components/ui/tab';
 import AppLayout from '@/layouts/app-layout';
-import { displayOrganizationsView, displayOrganizationView } from '@/routes/web/system-admin/organization';
-import { OrganizationAdmin } from '@/types/organization-admin';
-import { PaginationPayload } from '@/types/pagination';
+import { displayOrganizationAdminsView } from '@/routes/web/system-admin/organization-admin';
 import { Head, Link } from '@inertiajs/react';
 import { ChevronLeft } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -14,9 +11,10 @@ interface BreadcrumbItem {
     href: string;
 }
 
-interface Organization {
+interface OrganizationAdmin {
     id: string;
-    basic_information: {
+    organization: {
+        id: string;
         added_by_system_admin: {
             first_name: string;
             last_name: string;
@@ -28,17 +26,25 @@ interface Organization {
         office_address: string;
         official_email: string;
     };
-}
-
-interface Props {
-    organization: Organization;
-    organizationAdminPayload?: {
-        organizationAdmins: OrganizationAdmin[];
-        paginationPayload: PaginationPayload;
+    personal_information: {
+        added_by_system_admin: {
+            first_name: string;
+            last_name: string;
+        };
+        first_name: string;
+        middle_name: string;
+        last_name: string;
+        mobile_number: string;
+        email: string;
+        created_at: string;
     };
 }
 
-export default function EditEmployeeView({ organization, organizationAdminPayload }: Props) {
+interface Props {
+    organizationAdmin: OrganizationAdmin;
+}
+
+export default function EditEmployeeView({ organizationAdmin }: Props) {
     const [showActionDropdown, setShowActionDropdown] = useState(false);
 
     const breadcrumbs: BreadcrumbItem[] = [
@@ -48,18 +54,13 @@ export default function EditEmployeeView({ organization, organizationAdminPayloa
         },
     ];
 
-    const currentTab = new URLSearchParams(window.location.search).get('tab') || 'about';
+    const currentTab = new URLSearchParams(window.location.search).get('tab') || 'personal-information';
 
-    const organizationTabs = [
+    const organizationAdminTabs = [
         {
-            value: 'about',
-            label: 'About',
-            link: displayOrganizationView({ organizationId: organization.id }, { query: { tab: 'about' } }).url,
-        },
-        {
-            value: 'admin',
-            label: 'Admin',
-            link: displayOrganizationView({ organizationId: organization.id }, { query: { tab: 'admin' } }).url,
+            value: 'personal-information',
+            label: 'Personal Information',
+            link: '#',
         },
     ];
 
@@ -76,13 +77,13 @@ export default function EditEmployeeView({ organization, organizationAdminPayloa
 
     return (
         <>
-            <Head title={`Edit Organization: ${organization.basic_information.name}`} />
+            <Head title={`Edit Organization Admin: ${organizationAdmin.personal_information.first_name}`} />
             <AppLayout breadcrumbs={breadcrumbs}>
                 <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                     <div className="flex items-center justify-between px-2 py-5">
                         <div className="flex items-center gap-4">
                             <Link
-                                href={displayOrganizationsView().url}
+                                href={displayOrganizationAdminsView()}
                                 className="inline-flex items-center rounded-full bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-600"
                             >
                                 <ChevronLeft className="mr-1 h-4 w-4" />
@@ -91,21 +92,20 @@ export default function EditEmployeeView({ organization, organizationAdminPayloa
 
                             <div>
                                 <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
-                                    {organization.basic_information.name} -
-                                    <span className="text-base font-normal text-gray-600 dark:text-gray-400">
-                                        {organization.basic_information.acronym}
-                                    </span>
+                                    {organizationAdmin.personal_information.first_name} {organizationAdmin.personal_information.middle_name}{' '}
+                                    {organizationAdmin.personal_information.last_name}
                                 </h1>
                             </div>
                         </div>
                     </div>
 
-                    <Tab tabs={organizationTabs} defaultValue={currentTab}>
-                        <div data-tab="about">
-                            <AboutOrganizationTabPane basicInformation={organization.basic_information} organizationId={organization.id} />
-                        </div>
-                        <div data-tab="admin">
-                            {organizationAdminPayload && <OrganizationAdminTabPane organizationAdminPayload={organizationAdminPayload} />}
+                    <Tab tabs={organizationAdminTabs} defaultValue={currentTab}>
+                        <div data-tab="personal-information">
+                            <AboutOrganizationAdminTabPane
+                                personalInformation={organizationAdmin.personal_information}
+                                organization={organizationAdmin.organization}
+                                organizationAdminId={organizationAdmin.id}
+                            />
                         </div>
                     </Tab>
                 </div>
