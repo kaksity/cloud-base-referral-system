@@ -1,218 +1,170 @@
+import ProcessDeleteWardController from '@/actions/App/Http/Controllers/Web/SystemAdmin/Settings/Ward/ProcessDeleteWardController';
 import { EmptyState } from '@/components/empty-state';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
-import { displayOrganizationView } from '@/routes/web/system-admin/organization';
-import { Button } from '@headlessui/react';
-import { Link } from '@inertiajs/react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@radix-ui/react-select';
-import {
-    ColumnDef,
-    ColumnFiltersState,
-    flexRender,
-    getCoreRowModel,
-    getFilteredRowModel,
-    getSortedRowModel,
-    SortingState,
-    useReactTable,
-} from '@tanstack/react-table';
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, EllipsisVertical, Eye, Trash2 } from 'lucide-react';
-
+import { Organization } from '@/types/organization';
+import { PaginationPayload } from '@/types/pagination';
+import { displayOrganizationView } from '@/wayfinder/routes/web/system-admin/organization';
+import { router, useForm } from '@inertiajs/react';
+import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, SortingState, useReactTable } from '@tanstack/react-table';
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, MoreHorizontal } from 'lucide-react';
 import React from 'react';
-
-interface Organization {
-    id: string;
-    added_by_system_admin: {
-        first_name: string;
-        last_name: string;
-    };
-    name: string;
-    acronym: string;
-    created_at: string;
-    official_email: string;
-}
-
-interface PaginationMeta {
-    current_page: number;
-    from: number;
-    last_page: number;
-    path: string;
-    per_page: number;
-    to: number;
-    total: number;
-}
-
-interface PaginationLinks {
-    first: string;
-    last: string;
-    prev: string | null;
-    next: string | null;
-}
 
 export default function OrganizationTable({
     organizations: data,
     paginationPayload: { meta, links },
 }: {
     organizations: Organization[];
-    paginationPayload: {
-        meta: PaginationMeta;
-        links: PaginationLinks;
-    };
+    paginationPayload: PaginationPayload;
 }) {
     const getInitials = useInitials();
-
     const [sorting, setSorting] = React.useState<SortingState>([]);
-    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-    const [rowSelection, setRowSelection] = React.useState({});
-    const [globalFilter, setGlobalFilter] = React.useState('');
 
-    const columns: ColumnDef<Organization>[] = React.useMemo(() => [
-        {
-            accessorKey: 'name',
-            header: 'Organization Name',
-            cell: ({ row }) => {
-                const displayName = row.original.name;
-                const acronym = row.original.acronym;
+    const form = useForm({});
 
-                return (
-                    <div className="flex items-center gap-2">
-                        <span className="font-medium">{displayName}</span> - <span className="font-medium">{acronym}</span>
-                    </div>
-                );
-            },
-        },
-        {
-            accessorKey: 'official_email',
-            header: 'Official Email',
-            cell: ({ row }) => {
-                const email = row.getValue('official_email') as string;
-                return <div className="lowercase">{email && email.trim() !== '' ? email : 'N/A'}</div>;
-            },
-        },
-        {
-            accessorKey: 'created_at',
-            header: 'Registered On',
-            cell: ({ row }) => {
-                const createdAt = row.original.created_at;
+    function deleteWard(wardId: string) {
+        form.delete(ProcessDeleteWardController.url({ wardId }), {
+            onSuccess: () => {},
+            onError: () => {},
+        });
+    }
 
-                return (
-                    <div className="flex items-center gap-2">
-                        <span className="font-medium">{createdAt}</span>
-                    </div>
-                );
-            },
-            filterFn: (row, id, value) => {
-                return value.includes(row.getValue(id));
-            },
-        },
-        {
-            accessorKey: 'added_by_system_admin',
-            header: 'Add By System Add',
-            cell: ({ row }) => {
-                const firstName = row.original.added_by_system_admin.first_name;
-                const lastName = row.original.added_by_system_admin.last_name;
-                const displayName = `${firstName} ${lastName}`;
+    function goToViewOrganization(organizationId: string) {
+        router.visit(displayOrganizationView({ organizationId }));
+    }
 
-                return (
-                    <div className="flex items-center gap-2">
-                        <Avatar className="h-7 w-7">
-                            <AvatarFallback className={cn('text-xs font-semibold')}>{getInitials(firstName, lastName)}</AvatarFallback>
-                        </Avatar>
-                        <span className="font-medium">{displayName}</span>
-                    </div>
-                );
+    const columns: ColumnDef<Organization>[] = React.useMemo(
+        () => [
+            {
+                accessorKey: 'name',
+                header: 'Organization Name',
+                cell: ({ row }) => {
+                    const displayName = row.original.name;
+                    const acronym = row.original.acronym;
+
+                    return (
+                        <div className="flex items-center gap-2">
+                            <span className="font-medium">{displayName}</span> - <span className="font-medium">{acronym}</span>
+                        </div>
+                    );
+                },
             },
-        },
-        {
-            id: 'actions',
-            enableHiding: false,
-            cell: ({ row }) => {
-                return (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger>
-                            <Button className="h-8 w-8 p-0">
-                                <span className="sr-only">Open menu</span>
-                                <EllipsisVertical className="h-4 w-4" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => console.log('hello' + row.id)}>
-                                <Eye className="h-4 w-4" />
-                                View
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem className="text-red-600 focus:bg-red-50 focus:text-red-600">
-                                <Trash2 className="h-4 w-4 text-red-600" />
-                                Delete
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                );
+            {
+                accessorKey: 'official_email',
+                header: () => <span className="text-sm font-semibold">Official Email</span>,
+                cell: ({ row }) => {
+                    const name = row.original.official_email;
+                    return <span className="font-medium text-gray-800 lowercase">{name}</span>;
+                },
             },
-        },
-    ]);
+            {
+                accessorKey: 'created_at',
+                header: () => <span className="text-sm font-semibold">Registered On</span>,
+                cell: ({ row }) => {
+                    const name = row.original.created_at;
+                    return <span className="font-medium text-gray-800">{name}</span>;
+                },
+            },
+            {
+                accessorKey: 'added_by_system_admin',
+                header: () => <span className="text-sm font-semibold">Add By System Admin</span>,
+                cell: ({ row }) => {
+                    const firstName = row.original.added_by_system_admin.first_name;
+                    const lastName = row.original.added_by_system_admin.last_name;
+                    const displayName = `${firstName} ${lastName}`;
+
+                    return (
+                        <div className="flex items-center gap-2">
+                            <Avatar className="h-7 w-7">
+                                <AvatarFallback className={cn('text-xs font-semibold')}>{getInitials(firstName, lastName)}</AvatarFallback>
+                            </Avatar>
+                            <span className="font-medium">{displayName}</span>
+                        </div>
+                    );
+                },
+            },
+            {
+                id: 'actions',
+                header: 'Actions',
+                enableSorting: false,
+                cell: ({ row }) => {
+                    const organization = row.original;
+
+                    return (
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" className="h-8 w-8 p-0">
+                                    <span className="sr-only">Open menu</span>
+                                    <MoreHorizontal className="h-4 w-4" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem onClick={() => goToViewOrganization(organization.id)}>View</DropdownMenuItem>
+                                {/* <DropdownMenuItem className="text-red-600" onClick={() => deleteWard(state.id)}>
+                                    Delete
+                                </DropdownMenuItem> */}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    );
+                },
+            },
+        ],
+        [],
+    );
 
     const table = useReactTable({
         data,
         columns,
         onSortingChange: setSorting,
-        onColumnFiltersChange: setColumnFilters,
-        onRowSelectionChange: setRowSelection,
-        onGlobalFilterChange: setGlobalFilter,
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getSortedRowModel: getSortedRowModel(),
-        state: {
-            sorting,
-            columnFilters,
-            columnVisibility: {
-                select: true,
-                id: true,
-                name: true,
-                added_by_system_admin: true,
-                acronym: true,
-                office_address: false,
-                official_email: true,
-                actions: false,
-            },
-            rowSelection,
-            globalFilter,
-        },
+        state: { sorting },
     });
 
     return (
-        <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <div className="rounded-md">
+        <div className="flex h-full flex-1 flex-col gap-4 rounded-xl border bg-white shadow-sm">
+            <div className="overflow-hidden rounded-t-xl">
                 <Table>
-                    <TableHeader>
+                    <TableHeader className="sticky top-0 z-10 bg-gray-50">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id} className="hover:bg-transparent data-[state=selected]:bg-transparent">
-                                {headerGroup.headers.map((header) => {
-                                    return (
-                                        <TableHead key={header.id}>
-                                            {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                                        </TableHead>
-                                    );
-                                })}
+                                {headerGroup.headers.map((header) => (
+                                    <TableHead key={header.id} className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
+                                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                                    </TableHead>
+                                ))}
                             </TableRow>
                         ))}
                     </TableHeader>
                     <TableBody>
                         {table.getRowModel().rows?.length ? (
-                            table.getRowModel().rows.map((row) => (
-                                <Link href={displayOrganizationView({ organizationId: row.original.id })}>
-                                    <TableRow
-                                        key={row.id}
-                                        data-state={row.getIsSelected() && 'selected'}
-                                        className="hover:bg-transparent data-[state=selected]:bg-transparent"
-                                    >
-                                        {row.getVisibleCells().map((cell) => (
-                                            <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                                        ))}
-                                    </TableRow>
-                                </Link>
+                            table.getRowModel().rows.map((row, idx) => (
+                                <TableRow
+                                    key={row.id}
+                                    data-state={row.getIsSelected() && 'selected'}
+                                    className={`${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'} transition-colors hover:bg-gray-100`}
+                                >
+                                    {row.getVisibleCells().map((cell) => (
+                                        <TableCell key={cell.id} className="px-4 py-3">
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
                             ))
                         ) : (
                             <TableRow className="hover:bg-transparent data-[state=selected]:bg-transparent">
@@ -220,7 +172,7 @@ export default function OrganizationTable({
                                     <EmptyState
                                         pageType="organizations"
                                         title="No organizations found"
-                                        description="Your organizations will show up here as soon as an organization is created."
+                                        description="Your organizations will show up here as soon as a organization is created."
                                     />
                                 </TableCell>
                             </TableRow>
@@ -229,10 +181,12 @@ export default function OrganizationTable({
                 </Table>
             </div>
 
-            <div className="sticky bottom-0 flex items-center justify-between border-t px-2 py-3">
+            {/* Pagination */}
+            <div className="sticky bottom-0 flex items-center justify-between rounded-b-xl border-t bg-white px-4 py-3">
                 <div className="flex items-center space-x-6 lg:space-x-8">
+                    {/* Rows per page */}
                     <div className="flex items-center space-x-2">
-                        <p className="text-sm font-medium">Rows per page</p>
+                        <p className="text-sm font-medium text-gray-600">Rows per page</p>
                         <Select
                             value={`${meta.per_page}`}
                             onValueChange={(value) => {
@@ -251,42 +205,38 @@ export default function OrganizationTable({
                             </SelectContent>
                         </Select>
                     </div>
-                    <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-                        Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+
+                    {/* Page info */}
+                    <div className="flex w-[120px] items-center justify-center text-sm font-medium text-gray-600">
+                        Page {meta.current_page} of {meta.last_page}
                     </div>
-                    <div className="flex items-center justify-between px-2">
-                        <div className="flex-1 text-sm text-muted-foreground">
-                            Showing {meta.from} to {meta.to} of {meta.total} results
-                        </div>
-                        <div className="flex items-center space-x-2">
-                            <Button className="hidden h-8 w-8 p-0 lg:flex" disabled={!links.prev}>
-                                <a href={links.first}>
-                                    <span className="sr-only">Go to first page</span>
-                                    <ChevronsLeft className="h-4 w-4" />
-                                </a>
-                            </Button>
-                            <Button className="h-8 w-8 p-0" disabled={!links.prev}>
-                                <a href={links.prev ?? '#'}>
-                                    <span className="sr-only">Go to previous page</span>
-                                    <ChevronLeft className="h-4 w-4" />
-                                </a>
-                            </Button>
-                            <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-                                Page {meta.current_page} of {meta.last_page}
-                            </div>
-                            <Button className="h-8 w-8 p-0" disabled={!links.next}>
-                                <a href={links.next ?? '#'}>
-                                    <span className="sr-only">Go to next page</span>
-                                    <ChevronRight className="h-4 w-4" />
-                                </a>
-                            </Button>
-                            <Button className="hidden h-8 w-8 p-0 lg:flex" disabled={meta.current_page === meta.last_page}>
-                                <a href={links.last}>
-                                    <span className="sr-only">Go to last page</span>
-                                    <ChevronsRight className="h-4 w-4" />
-                                </a>
-                            </Button>
-                        </div>
+
+                    {/* Pagination buttons */}
+                    <div className="flex items-center space-x-2">
+                        <Button variant="outline" className="hidden h-8 w-8 p-0 lg:flex" disabled={!links.prev}>
+                            <a href={links.first}>
+                                <span className="sr-only">Go to first page</span>
+                                <ChevronsLeft className="h-4 w-4" />
+                            </a>
+                        </Button>
+                        <Button variant="outline" className="h-8 w-8 p-0" disabled={!links.prev}>
+                            <a href={links.prev ?? '#'}>
+                                <span className="sr-only">Go to previous page</span>
+                                <ChevronLeft className="h-4 w-4" />
+                            </a>
+                        </Button>
+                        <Button variant="outline" className="h-8 w-8 p-0" disabled={!links.next}>
+                            <a href={links.next ?? '#'}>
+                                <span className="sr-only">Go to next page</span>
+                                <ChevronRight className="h-4 w-4" />
+                            </a>
+                        </Button>
+                        <Button variant="outline" className="hidden h-8 w-8 p-0 lg:flex" disabled={meta.current_page === meta.last_page}>
+                            <a href={links.last}>
+                                <span className="sr-only">Go to last page</span>
+                                <ChevronsRight className="h-4 w-4" />
+                            </a>
+                        </Button>
                     </div>
                 </div>
             </div>
