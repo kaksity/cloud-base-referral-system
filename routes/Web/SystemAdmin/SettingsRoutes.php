@@ -22,6 +22,10 @@ use App\Http\Controllers\Web\SystemAdmin\Settings\State\DisplayStatesViewControl
 use App\Http\Controllers\Web\SystemAdmin\Settings\State\ProcessCreateStateController;
 use App\Http\Controllers\Web\SystemAdmin\Settings\State\ProcessDeleteStateController;
 use App\Http\Controllers\Web\SystemAdmin\Settings\State\ProcessUpdateStateController;
+use App\Http\Controllers\Web\SystemAdmin\Settings\Ward\DisplayWardsViewController;
+use App\Http\Controllers\Web\SystemAdmin\Settings\Ward\ProcessCreateWardController;
+use App\Http\Controllers\Web\SystemAdmin\Settings\Ward\ProcessDeleteWardController;
+use App\Http\Controllers\Web\SystemAdmin\Settings\Ward\ProcessUpdateWardController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:system-admin']], function () {
@@ -62,6 +66,13 @@ Route::group(['middleware' => ['auth:system-admin']], function () {
         Route::post('/process/create/local-government-area', ProcessCreateLocalGovernmentAreaController::class)->name('web.system-admin.settings.local-government-area.process-create-local-government-area');
         Route::delete('/process/delete/local-government-area/{localGovernmentAreaId}', ProcessDeleteLocalGovernmentAreaController::class)->name('web.system-admin.settings.local-government-area.process-delete-local-government-area');
         Route::patch('/process/update/local-government-area/{localGovernmentAreaId}', ProcessUpdateLocalGovernmentAreaController::class)->name('web.system-admin.settings.local-government-area.process-update-state');
+    });
+
+    Route::group(['prefix' => 'ward'], function () {
+        Route::get('/', DisplayWardsViewController::class)->name('web.system-admin.settings.ward.display-wards-view');
+        Route::post('/process/create/ward', ProcessCreateWardController::class)->name('web.system-admin.settings.ward.process-create-ward');
+        Route::delete('/process/delete/ward/{wardId}', ProcessDeleteWardController::class)->name('web.system-admin.settings.ward.process-delete-ward');
+        Route::patch('/process/update/ward/{wardId}', ProcessUpdateWardController::class)->name('web.system-admin.settings.ward.process-update-ward');
     });
 
     Route::get('appearance', DisplayAppearanceViewController::class)->name('web.system-admin.settings.appearance.display-appearance-view');

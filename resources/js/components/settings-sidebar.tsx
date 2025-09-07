@@ -10,6 +10,7 @@ import { displayChangePasswordView } from '@/routes/web/system-admin/settings/pa
 import { displayProfileView } from '@/routes/web/system-admin/settings/profile';
 import { displaySectorsView } from '@/routes/web/system-admin/settings/sector';
 import { displayStatesView } from '@/routes/web/system-admin/settings/state';
+import { displayWardsView } from '@/routes/web/system-admin/settings/ward';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { ArrowLeft, Lock, ScreenShare, User } from 'lucide-react';
@@ -44,6 +45,11 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Local Government Area',
         href: displayLocalGovernmentAreasView(),
+        icon: Lock,
+    },
+    {
+        title: 'Ward',
+        href: displayWardsView(),
         icon: Lock,
     },
     {
