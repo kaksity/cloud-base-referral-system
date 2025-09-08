@@ -1,9 +1,12 @@
-import Avatar from '@/components/system-admin/organization/about/avatar';
-import BasicInformation from '@/components/system-admin/organization/about/basic-information';
+import OrganizationAdminTable from '@/components/system-admin/organization-admin/organization-admin-table';
+import CreateAdminModal from '@/components/system-admin/organization/admin/modal/create-admin-modal';
+import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { displayDashboardView } from '@/routes/web/system-admin/dashboard';
 import { displayOrganizationsView, displayOrganizationView } from '@/routes/web/system-admin/organization';
 import { displayOrganizationAdminsView } from '@/routes/web/system-admin/organization/admin';
+import { OrganizationAdmin } from '@/types/organization-admin';
+import { PaginationPayload } from '@/types/pagination';
 import { Head, Link } from '@inertiajs/react';
 import { ChevronLeft } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -31,25 +34,27 @@ interface Organization {
 
 interface Props {
     organization: Organization;
+    organizationAdmins: OrganizationAdmin[];
+    paginationPayload: PaginationPayload;
 }
 
-export default function EditEmployeeView({ organization }: Props) {
+export default function EditEmployeeView({ organization, organizationAdmins, paginationPayload }: Props) {
     const [showActionDropdown, setShowActionDropdown] = useState(false);
 
     const breadcrumbs: BreadcrumbItem[] = [
-            {
-                title: 'Dashboard',
-                href: displayDashboardView().url,
-            },
-            {
-                title: 'Organizations',
-                href: displayOrganizationsView().url,
-            },
-            {
-                title: 'About',
-                href: displayOrganizationView({ organizationId: organization.id }).url,
-            },
-        ];
+        {
+            title: 'Dashboard',
+            href: displayDashboardView().url,
+        },
+        {
+            title: 'Organizations',
+            href: displayOrganizationsView().url,
+        },
+        {
+            title: 'Admin',
+            href: displayOrganizationAdminsView({ organizationId: organization.id }).url,
+        },
+    ];
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -62,12 +67,15 @@ export default function EditEmployeeView({ organization }: Props) {
         return () => document.removeEventListener('click', handleClickOutside);
     }, [showActionDropdown]);
 
+    const [showCreateAdminModal, setShowCreateAdminModal] = useState<boolean>(false);
+
     return (
         <>
             <Head title={`Edit Organization: ${organization.basic_information.name}`} />
             <AppLayout breadcrumbs={breadcrumbs}>
                 <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                     <div className="flex items-center justify-between px-2 py-5">
+                        {/* Left side */}
                         <div className="flex items-center gap-4">
                             <Link
                                 href={displayOrganizationsView().url}
@@ -86,22 +94,22 @@ export default function EditEmployeeView({ organization }: Props) {
                                 </h1>
                             </div>
                         </div>
+
+                        <div>
+                            <Button onClick={() => setShowCreateAdminModal(true)}>Add Admin</Button>
+                        </div>
                     </div>
 
                     <div className="flex gap-6 border-b border-border">
                         <Link
-                            href={displayOrganizationView({
-                                organizationId: organization.id,
-                            })}
-                            className="border-b-2 border-primary pb-2 text-sm text-muted-foreground transition hover:text-foreground"
+                            href={displayOrganizationView({ organizationId: organization.id })}
+                            className="pb-2 text-sm text-muted-foreground transition hover:text-foreground"
                         >
                             About
                         </Link>
                         <Link
-                            href={displayOrganizationAdminsView({
-                                organizationId: organization.id,
-                            })}
-                            className="pb-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
+                            href={displayOrganizationAdminsView({ organizationId: organization.id })}
+                            className="border-b-2 border-primary pb-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
                         >
                             Admin
                         </Link>
@@ -110,14 +118,16 @@ export default function EditEmployeeView({ organization }: Props) {
                         <Link className="pb-2 text-sm text-muted-foreground transition hover:text-foreground">Beneficiary</Link>
                         <Link className="pb-2 text-sm text-muted-foreground transition hover:text-foreground">Referral</Link>
                     </div>
+
                     <div className="rounded-md">
-                        <div className="flex flex-1 flex-col gap-6 p-4">
-                            <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
-                                <Avatar avatar={{ id: organization.id, name: organization.basic_information.name }} />
-                                <BasicInformation organizationId={organization.id} basicInformation={organization.basic_information} />
-                            </div>
-                        </div>
+                        <OrganizationAdminTable organizationAdmins={organizationAdmins} paginationPayload={paginationPayload} />
                     </div>
+                    <CreateAdminModal
+                        show={showCreateAdminModal}
+                        onSave={() => setShowCreateAdminModal(false)}
+                        onClose={() => setShowCreateAdminModal(false)}
+                        organizationId={organization.id}
+                    />
                 </div>
             </AppLayout>
         </>
