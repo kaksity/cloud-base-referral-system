@@ -1,11 +1,10 @@
 import Avatar from '@/components/system-admin/organization/about/avatar';
 import BasicInformation from '@/components/system-admin/organization/about/basic-information';
 import AppLayout from '@/layouts/app-layout';
+import OrganizationLayout from '@/layouts/custom/view-organization-layout';
 import { displayDashboardView } from '@/routes/web/system-admin/dashboard';
 import { displayOrganizationsView, displayOrganizationView } from '@/routes/web/system-admin/organization';
-import { displayOrganizationAdminsView } from '@/routes/web/system-admin/organization/admin';
-import { Head, Link } from '@inertiajs/react';
-import { ChevronLeft } from 'lucide-react';
+import { Head } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 
 interface BreadcrumbItem {
@@ -37,19 +36,19 @@ export default function EditEmployeeView({ organization }: Props) {
     const [showActionDropdown, setShowActionDropdown] = useState(false);
 
     const breadcrumbs: BreadcrumbItem[] = [
-            {
-                title: 'Dashboard',
-                href: displayDashboardView().url,
-            },
-            {
-                title: 'Organizations',
-                href: displayOrganizationsView().url,
-            },
-            {
-                title: 'About',
-                href: displayOrganizationView({ organizationId: organization.id }).url,
-            },
-        ];
+        {
+            title: 'Dashboard',
+            href: displayDashboardView().url,
+        },
+        {
+            title: 'Organizations',
+            href: displayOrganizationsView().url,
+        },
+        {
+            title: 'About',
+            href: displayOrganizationView({ organizationId: organization.id }).url,
+        },
+    ];
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -66,59 +65,14 @@ export default function EditEmployeeView({ organization }: Props) {
         <>
             <Head title={`Edit Organization: ${organization.basic_information.name}`} />
             <AppLayout breadcrumbs={breadcrumbs}>
-                <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                    <div className="flex items-center justify-between px-2 py-5">
-                        <div className="flex items-center gap-4">
-                            <Link
-                                href={displayOrganizationsView().url}
-                                className="inline-flex items-center rounded-full bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-600"
-                            >
-                                <ChevronLeft className="mr-1 h-4 w-4" />
-                                Back
-                            </Link>
-
-                            <div>
-                                <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
-                                    {organization.basic_information.name} -
-                                    <span className="text-base font-normal text-gray-600 dark:text-gray-400">
-                                        {organization.basic_information.acronym}
-                                    </span>
-                                </h1>
-                            </div>
+                <OrganizationLayout organization={organization} activeTab="about">
+                    <div className="flex flex-1 flex-col gap-6 p-4">
+                        <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
+                            <Avatar avatar={{ id: organization.id, name: organization.basic_information.name }} />
+                            <BasicInformation organizationId={organization.id} basicInformation={organization.basic_information} />
                         </div>
                     </div>
-
-                    <div className="flex gap-6 border-b border-border">
-                        <Link
-                            href={displayOrganizationView({
-                                organizationId: organization.id,
-                            })}
-                            className="border-b-2 border-primary pb-2 text-sm text-muted-foreground transition hover:text-foreground"
-                        >
-                            About
-                        </Link>
-                        <Link
-                            href={displayOrganizationAdminsView({
-                                organizationId: organization.id,
-                            })}
-                            className="pb-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
-                        >
-                            Admin
-                        </Link>
-                        <Link className="pb-2 text-sm text-muted-foreground transition hover:text-foreground">Case Worker</Link>
-                        <Link className="pb-2 text-sm text-muted-foreground transition hover:text-foreground">Location</Link>
-                        <Link className="pb-2 text-sm text-muted-foreground transition hover:text-foreground">Beneficiary</Link>
-                        <Link className="pb-2 text-sm text-muted-foreground transition hover:text-foreground">Referral</Link>
-                    </div>
-                    <div className="rounded-md">
-                        <div className="flex flex-1 flex-col gap-6 p-4">
-                            <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
-                                <Avatar avatar={{ id: organization.id, name: organization.basic_information.name }} />
-                                <BasicInformation organizationId={organization.id} basicInformation={organization.basic_information} />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </OrganizationLayout>
             </AppLayout>
         </>
     );

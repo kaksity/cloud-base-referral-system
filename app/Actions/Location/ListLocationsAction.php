@@ -19,6 +19,10 @@ class ListLocationsAction
             ->with($relationships)
             ->orderBy('created_at', 'asc');
 
+        if (!empty($filterRecordOptionsPayload['organization_id'])) {
+            $query->where('organization_id', $filterRecordOptionsPayload['organization_id']);
+        }
+
         if ($paginationPayload) {
             $paginatedLocations = $query->paginate(
                 $paginationPayload['limit'] ?? config('businessConfig.default_page_limit'),
