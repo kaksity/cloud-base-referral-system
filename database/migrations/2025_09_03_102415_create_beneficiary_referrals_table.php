@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('beneficiary_referrals', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('beneficiary_id')->index();
-            $table->string('organization_id')->index();
-            $table->string('location_id')->index();
-            $table->string('service_id')->index();
+            $table->uuid('organization_id')->index();
+            $table->uuid('location_id')->index();
+            $table->text('services');
             $table->timestamps();
             $table->softDeletes();
         });

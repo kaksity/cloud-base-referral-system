@@ -19,8 +19,16 @@ class ListCaseWorkersAction
             ->with($relationships)
             ->orderBy('created_at', 'asc');
 
-        if (!empty($filterRecordOptionsPayload['vehicle_id'])) {
-            $query->where('vehicle_id', $filterRecordOptionsPayload['vehicle_id']);
+        if (!empty($filterRecordOptionsPayload['current_organization_id'])) {
+            $query->where('current_organization_id', $filterRecordOptionsPayload['current_organization_id']);
+        }
+
+        if (!empty($filterRecordOptionsPayload['added_by_organization_admin_id'])) {
+            $query->where('added_by_organization_admin_id', $filterRecordOptionsPayload['added_by_organization_admin_id']);
+        }
+
+        if (!empty($filterRecordOptionsPayload['current_location_id'])) {
+            $query->where('current_location_id', $filterRecordOptionsPayload['current_location_id']);
         }
 
         if ($paginationPayload) {

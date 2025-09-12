@@ -19,6 +19,14 @@ class ListServicesAction
             ->with($relationships)
             ->orderBy('created_at', 'asc');
 
+        if (!empty($filterRecordOptionsPayload['organization_id'])) {
+            $query->where('organization_id', $filterRecordOptionsPayload['organization_id']);
+        }
+
+        if (!empty($filterRecordOptionsPayload['sector_id'])) {
+            $query->where('sector_id', $filterRecordOptionsPayload['sector_id']);
+        }
+
         if ($paginationPayload) {
             $paginatedServices = $query->paginate(
                 $paginationPayload['limit'] ?? config('businessConfig.default_page_limit'),

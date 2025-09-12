@@ -19,6 +19,10 @@ class ListBeneficiariesAction
             ->with($relationships)
             ->orderBy('created_at', 'asc');
 
+        if (!empty($filterRecordOptionsPayload['added_by_case_worker_id'])) {
+            $query->where('added_by_case_worker_id', $filterRecordOptionsPayload['added_by_case_worker_id']);
+        }
+
         if ($paginationPayload) {
             $paginatedBeneficiaries = $query->paginate(
                 $paginationPayload['limit'] ?? config('businessConfig.default_page_limit'),
