@@ -32,12 +32,7 @@ class OrganizationResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        $operations = [
-            'create' => CreateOrganizationForm::configure($schema),
-            'edit' => EditOrganizationForm::configure($schema)
-        ];
-
-        return $operations[$schema->getOperation()];
+        return $schema->getOperation() === 'create' ? CreateOrganizationForm::configure($schema) : EditOrganizationForm::configure($schema);
     }
 
     public static function infolist(Schema $schema): Schema
