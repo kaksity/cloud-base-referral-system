@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\SystemAdmin\Resources\Organizations\Tables;
+namespace App\Filament\SystemAdmin\Resources\BeneficiaryReferrals\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -12,7 +12,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
-class OrganizationsTable
+class BeneficiaryReferralsTable
 {
     public static function configure(Table $table): Table
     {
@@ -21,19 +21,11 @@ class OrganizationsTable
                 TextColumn::make('id')
                     ->label('ID')
                     ->searchable(),
-                TextColumn::make('addedBySystemAdmin.first_name')
+                TextColumn::make('beneficiary_id')
                     ->searchable(),
-                TextColumn::make('name')
+                TextColumn::make('organization_id')
                     ->searchable(),
-                TextColumn::make('acronym')
-                    ->searchable(),
-                TextColumn::make('office_address')
-                    ->searchable(),
-                TextColumn::make('official_email')
-                    ->searchable(),
-                TextColumn::make('logo_url')
-                    ->searchable(),
-                TextColumn::make('status')
+                TextColumn::make('location_id')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()

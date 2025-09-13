@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\SystemAdmin\Resources\Organizations\Tables;
+namespace App\Filament\SystemAdmin\Resources\Locations\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -12,7 +12,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
-class OrganizationsTable
+class LocationsTable
 {
     public static function configure(Table $table): Table
     {
@@ -21,17 +21,17 @@ class OrganizationsTable
                 TextColumn::make('id')
                     ->label('ID')
                     ->searchable(),
-                TextColumn::make('addedBySystemAdmin.first_name')
+                TextColumn::make('country_id')
+                    ->searchable(),
+                TextColumn::make('state_id')
+                    ->searchable(),
+                TextColumn::make('local_government_area_id')
+                    ->searchable(),
+                TextColumn::make('ward_id')
+                    ->searchable(),
+                TextColumn::make('organization_id')
                     ->searchable(),
                 TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('acronym')
-                    ->searchable(),
-                TextColumn::make('office_address')
-                    ->searchable(),
-                TextColumn::make('official_email')
-                    ->searchable(),
-                TextColumn::make('logo_url')
                     ->searchable(),
                 TextColumn::make('status')
                     ->searchable(),
