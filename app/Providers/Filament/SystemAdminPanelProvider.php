@@ -31,12 +31,12 @@ class SystemAdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
+            ->discoverResources(in: app_path('Filament/SystemAdmin/Resources'), for: 'App\Filament\SystemAdmin\Resources')
+            ->discoverPages(in: app_path('Filament/SystemAdmin/Pages'), for: 'App\Filament\SystemAdmin\Pages')
             ->pages([
                 Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
+            ->discoverWidgets(in: app_path('Filament/SystemAdmin/Widgets'), for: 'App\Filament\SystemAdmin\Widgets')
             ->widgets([
                 AccountWidget::class,
                 FilamentInfoWidget::class,
