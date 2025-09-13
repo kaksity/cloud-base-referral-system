@@ -48,6 +48,10 @@ return [
             'driver' => 'session',
             'provider' => 'organization-admins',
         ],
+        'case-worker' => [
+            'driver' => 'session',
+            'provider' => 'case-workers',
+        ],
     ],
 
     /*
@@ -79,6 +83,10 @@ return [
         'organization-admins' => [
             'driver' => 'eloquent',
             'model' =>  App\Models\OrganizationAdmin::class,
+        ],
+        'case-workers' => [
+            'driver' => 'eloquent',
+            'model' =>  App\Models\CaseWorker::class,
         ],
         // 'users' => [
         //     'driver' => 'database',

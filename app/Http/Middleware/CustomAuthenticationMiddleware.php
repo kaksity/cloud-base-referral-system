@@ -114,8 +114,13 @@ class CustomAuthenticationMiddleware implements AuthenticatesRequests
      */
     protected function redirectTo(Request $request)
     {
+
         if ($request->is('system-admin/*')) {
-            return route('web.system-admin.organization.display-login-view');
+            return redirect('system-admin/login');
+        }
+
+        if ($request->is('organization-admin/*')) {
+            return redirect('organization-admin/login');
         }
 
         if (static::$redirectToCallback) {

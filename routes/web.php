@@ -9,4 +9,4 @@ Route::get('/', function () {
 
 require __DIR__.'/auth.php';
 
-Route::prefix('system-admin')->group(__DIR__.'/Web/SystemAdmin/index.php');
+// Route::prefix('system-admin')->group(__DIR__.'/Web/SystemAdmin/index.php');
