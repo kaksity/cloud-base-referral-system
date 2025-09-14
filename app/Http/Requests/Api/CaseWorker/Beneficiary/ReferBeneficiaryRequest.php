@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Api\CaseWorker\Organization;
+namespace App\Http\Requests\Api\CaseWorker\Beneficiary;
 
 use Illuminate\Foundation\Http\FormRequest;
 

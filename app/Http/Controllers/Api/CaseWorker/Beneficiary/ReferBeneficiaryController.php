@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\CaseWorker\Beneficiary;
 use App\Actions\BeneficiaryReferral\ConfirmBeneficiaryReferralAction;
 use App\Actions\BeneficiaryReferral\CreateBeneficiaryReferralAction;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\CaseWorker\Organization\ReferBeneficiaryRequest;
+use App\Http\Requests\Api\CaseWorker\Beneficiary\ReferBeneficiaryRequest;
 
 class ReferBeneficiaryController extends Controller
 {
