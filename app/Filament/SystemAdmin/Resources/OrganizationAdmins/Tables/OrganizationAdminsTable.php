@@ -18,19 +18,23 @@ class OrganizationAdminsTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->searchable(),
                 TextColumn::make('organization.name')
                     ->searchable(),
+
                 TextColumn::make('addedBySystemAdmin.first_name')
+                    ->label('System Admin')
+                    ->formatStateUsing(fn($record) => trim(
+                        "{$record->addedBySystemAdmin->first_name} {$record->addedBySystemAdmin->middle_name} {$record->addedBySystemAdmin->last_name}"
+                    ))
                     ->searchable(),
+
                 TextColumn::make('first_name')
+                    ->label('Organization Admin')
+                    ->formatStateUsing(fn($record) => trim(
+                        "{$record->first_name} {$record->middle_name} {$record->last_name}"
+                    ))
                     ->searchable(),
-                TextColumn::make('middle_name')
-                    ->searchable(),
-                TextColumn::make('last_name')
-                    ->searchable(),
+
                 TextColumn::make('mobile_number')
                     ->searchable(),
                 TextColumn::make('email')

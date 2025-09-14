@@ -2,6 +2,7 @@
 
 namespace App\Filament\SystemAdmin\Resources\OrganizationAdmins\Schemas;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -11,10 +12,6 @@ class OrganizationAdminForm
     {
         return $schema
             ->components([
-                TextInput::make('organization_id')
-                    ->required(),
-                TextInput::make('added_by_system_admin_id')
-                    ->required(),
                 TextInput::make('first_name')
                     ->required(),
                 TextInput::make('middle_name'),
@@ -28,9 +25,10 @@ class OrganizationAdminForm
                 TextInput::make('password')
                     ->password()
                     ->required(),
-                TextInput::make('status')
-                    ->required()
-                    ->default('active'),
+                Select::make('status')->options([
+                    'active' => 'Active',
+                    'inactive' => 'Inactive'
+                ])->default('active')->required()
             ]);
     }
 }

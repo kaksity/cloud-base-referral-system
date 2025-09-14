@@ -18,10 +18,7 @@ class SectorsTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->searchable(),
-                TextColumn::make('name')
+                TextColumn::make('name')->label('Sector')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()

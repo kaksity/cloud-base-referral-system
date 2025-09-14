@@ -28,7 +28,7 @@ class LocationsTable
                     ->searchable(),
                 TextColumn::make('organization.name')
                     ->searchable(),
-                TextColumn::make('name')
+                TextColumn::make('name')->label('Location')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()

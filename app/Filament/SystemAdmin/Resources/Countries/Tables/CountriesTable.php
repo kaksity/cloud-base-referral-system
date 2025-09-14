@@ -18,7 +18,7 @@ class CountriesTable
     {
         return $table
             ->columns([
-                TextColumn::make('name')
+                TextColumn::make('name')->label('Country')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
