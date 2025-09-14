@@ -18,28 +18,19 @@ class WardsTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
+                TextColumn::make('country.name')->label('Country')
                     ->searchable(),
-                TextColumn::make('country_id')
+                TextColumn::make('state.name')->label('State')
                     ->searchable(),
-                TextColumn::make('state_id')
-                    ->searchable(),
-                TextColumn::make('local_government_area_id')
+                TextColumn::make('localGovernmentArea.name')->label('Local Government Area')
                     ->searchable(),
                 TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('status')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
