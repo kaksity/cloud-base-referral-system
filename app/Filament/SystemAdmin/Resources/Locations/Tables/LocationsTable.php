@@ -18,32 +18,23 @@ class LocationsTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
+                TextColumn::make('country.name')
                     ->searchable(),
-                TextColumn::make('country_id')
+                TextColumn::make('state.name')
                     ->searchable(),
-                TextColumn::make('state_id')
+                TextColumn::make('localGovernmentArea.name')
                     ->searchable(),
-                TextColumn::make('local_government_area_id')
+                TextColumn::make('ward.name')
                     ->searchable(),
-                TextColumn::make('ward_id')
-                    ->searchable(),
-                TextColumn::make('organization_id')
+                TextColumn::make('organization.name')
                     ->searchable(),
                 TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('status')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

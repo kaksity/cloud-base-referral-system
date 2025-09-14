@@ -25,6 +25,6 @@ class Location extends AbstractModel
 
     public function ward()
     {
-        return $this->belongsTo(Location::class, 'ward_id');
+        return $this->belongsTo(Ward::class, 'ward_id');
     }
 }
