@@ -37,7 +37,6 @@ class FilamentAuthenticationMiddleware extends Authenticate
 
     protected function redirectTo($request): ?string
     {
-        dd($request->url());
         if (str_contains($request->url(), 'organization-admin')) {
             return Filament::getPanel('organization-admin')->getLoginUrl();
         };
