@@ -9,6 +9,11 @@ class CaseWorker extends AbstractModel
         return $this->belongsTo(Organization::class, 'current_organization_id');
     }
 
+    public function addedBySystemAdmin()
+    {
+        return $this->belongsTo(SystemAdmin::class, 'added_by_system_admin_id');
+    }
+
     public function addedByOrganizationAdmin()
     {
         return $this->belongsTo(OrganizationAdmin::class, 'added_by_organization_admin_id');

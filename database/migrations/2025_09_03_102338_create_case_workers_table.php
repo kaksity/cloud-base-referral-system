@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('case_workers', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('current_organization_id')->index();
-            $table->uuid('added_by_organization_admin_id')->index();
+            $table->uuid('added_by_system_admin_id')->nullable()->index();
+            $table->uuid('added_by_organization_admin_id')->nullable()->index();
             $table->uuid('current_location_id')->index();
             $table->string('first_name');
-            $table->string('middle_name');
+            $table->string('middle_name')->nullable();
             $table->string('last_name');
             $table->string('email');
             $table->string('password');

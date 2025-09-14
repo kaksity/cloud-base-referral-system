@@ -18,20 +18,15 @@ class CaseWorkersTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
+                TextColumn::make('currentOrganization.name')->label('Organization')
                     ->searchable(),
-                TextColumn::make('current_organization_id')
-                    ->searchable(),
-                TextColumn::make('added_by_organization_admin_id')
-                    ->searchable(),
-                TextColumn::make('current_location_id')
+                TextColumn::make('currentLocation.name')->label('Current Location')
                     ->searchable(),
                 TextColumn::make('first_name')
-                    ->searchable(),
-                TextColumn::make('middle_name')
-                    ->searchable(),
-                TextColumn::make('last_name')
+                    ->label('Case Worker')
+                    ->formatStateUsing(fn($record) => trim(
+                        "{$record->first_name} {$record->middle_name} {$record->last_name}"
+                    ))
                     ->searchable(),
                 TextColumn::make('email')
                     ->label('Email address')
@@ -46,10 +41,7 @@ class CaseWorkersTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('deleted_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+
             ])
             ->filters([
                 TrashedFilter::make(),
