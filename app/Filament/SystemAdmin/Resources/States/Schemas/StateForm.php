@@ -7,7 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
-class StateForm
+class StateForm 
 {
     public static function configure(Schema $schema): Schema
     {

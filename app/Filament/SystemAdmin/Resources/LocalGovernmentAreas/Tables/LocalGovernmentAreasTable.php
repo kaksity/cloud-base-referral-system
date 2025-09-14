@@ -18,26 +18,17 @@ class LocalGovernmentAreasTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
+                TextColumn::make('country.name')->label('Country')
                     ->searchable(),
-                TextColumn::make('country_id')
+                TextColumn::make('state.name')->label('State')
                     ->searchable(),
-                TextColumn::make('state_id')
-                    ->searchable(),
-                TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('status')
+                TextColumn::make('name')->label('Local Government Area')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
