@@ -13,9 +13,6 @@ class CountryForm
             ->components([
                 TextInput::make('name')
                     ->required(),
-                TextInput::make('status')
-                    ->required()
-                    ->default('active'),
             ]);
     }
 }
