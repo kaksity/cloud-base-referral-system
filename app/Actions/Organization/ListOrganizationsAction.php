@@ -19,6 +19,10 @@ class ListOrganizationsAction
             ->with($relationships)
             ->orderBy('created_at', 'asc');
 
+        if (!empty($filterRecordOptionsPayload['status'])) {
+            $query->where('status', $filterRecordOptionsPayload['status']);
+        }
+
         if ($paginationPayload) {
             $paginatedOrganizations = $query->paginate(
                 $paginationPayload['limit'] ?? config('businessConfig.default_page_limit'),

@@ -17,10 +17,14 @@ class ListBeneficiariesAction
 
         $query = $this->beneficiary->query()
             ->with($relationships)
-            ->orderBy('created_at', 'asc');
+            ->orderBy('first_name', 'asc');
 
         if (!empty($filterRecordOptionsPayload['added_by_case_worker_id'])) {
             $query->where('added_by_case_worker_id', $filterRecordOptionsPayload['added_by_case_worker_id']);
+        }
+
+        if (!empty($filterRecordOptionsPayload['status'])) {
+            $query->where('status', $filterRecordOptionsPayload['status']);
         }
 
         if ($paginationPayload) {

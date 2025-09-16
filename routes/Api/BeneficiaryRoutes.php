@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CaseWorker\Beneficiary\CreateBeneficiaryController;
 use App\Http\Controllers\Api\CaseWorker\Beneficiary\FetchBeneficiariesController;
+use App\Http\Controllers\Api\CaseWorker\Beneficiary\FetchBeneficiaryReferralsController;
 use App\Http\Controllers\Api\CaseWorker\Beneficiary\FetchRecentBeneficiariesController;
 use App\Http\Controllers\Api\CaseWorker\Beneficiary\GetBeneficiaryController;
 use App\Http\Controllers\Api\CaseWorker\Beneficiary\ReferBeneficiaryController;
@@ -12,6 +13,8 @@ Route::group(['middleware' => ['auth:case-worker']], function () {
     Route::put('/update/beneficiary/{beneficiaryId}', UpdateBeneficiaryController::class);
 
     Route::get('/fetch/recent/beneficiaries', FetchRecentBeneficiariesController::class);
+
+    Route::get('/get/beneficiary/referrals', FetchBeneficiaryReferralsController::class);
 
     Route::get('/get/beneficiary/{beneficiaryId}', GetBeneficiaryController::class);
 

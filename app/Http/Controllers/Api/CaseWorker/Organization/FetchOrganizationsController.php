@@ -16,6 +16,9 @@ class FetchOrganizationsController extends Controller
         $relationships = [];
 
         ['organization_payload' => $organizations, 'pagination_payload' => $paginationPayload] = $this->listOrganizationsAction->execute([
+            'filter_record_options_payload' => [
+                'status' => 'active'
+            ],
             'pagination_payload' => [
                 'page' => $request->page ?? 1,
                 'per_page' => $request->per_page ?? 100,

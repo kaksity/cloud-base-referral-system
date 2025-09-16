@@ -12,7 +12,7 @@ class GetBeneficiaryController extends Controller
 
     public function __invoke(string $beneficiaryId)
     {
-        $relationships = [];
+        $relationships = ['addedByCaseWorker', 'location'];
 
         $beneficiary = $this->getBeneficiaryByIdAction->execute($beneficiaryId, $relationships);
 

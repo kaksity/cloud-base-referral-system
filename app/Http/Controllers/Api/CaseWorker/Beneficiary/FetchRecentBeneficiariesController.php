@@ -10,14 +10,11 @@ class FetchRecentBeneficiariesController extends Controller
 {
     public function __construct(
         private ListMostRecentBeneficiariesAction $listMostRecentBeneficiariesAction
-    )
-    {
-        
-    }
+    ) {}
 
     public function __invoke()
     {
-        
+
         $loggedInCaseWorker = auth('case-worker')->user();
         $mostRecentBeneficiaries = $this->listMostRecentBeneficiariesAction->execute([
             'case_worker_id' => $loggedInCaseWorker->id
@@ -25,6 +22,6 @@ class FetchRecentBeneficiariesController extends Controller
 
         $mutatedCaseWorkers = FetchRecentBeneficiariesResource::collection($mostRecentBeneficiaries);
 
-        return generateSuccessApiMessage('Fetched most recent case workers successfully', $mutatedCaseWorkers);
+        return generateSuccessApiMessage('Fetched most recent case workers successfully', 200, $mutatedCaseWorkers);
     }
 }

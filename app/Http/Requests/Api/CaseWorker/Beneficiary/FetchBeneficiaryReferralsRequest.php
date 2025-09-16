@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\CaseWorker\Beneficiary;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FetchBeneficiariesRequest extends FormRequest
+class FetchBeneficiaryReferralsRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -16,7 +16,9 @@ class FetchBeneficiariesRequest extends FormRequest
         return [
             'page' => ['nullable', 'integer', 'min:1'],
             'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
-            'status' => ['nullable', 'in:active,inactive,referred']
+            'location_id' => ['nullable','uuid'],
+            'organization_id' => ['nullable','uuid'],
+            'beneficiary_id' => ['nullable','uuid'],
         ];
     }
 

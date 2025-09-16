@@ -17,7 +17,19 @@ class ListBeneficiaryReferralsAction
 
         $query = $this->beneficiaryReferral->query()
             ->with($relationships)
-            ->orderBy('created_at', 'asc');
+            ->orderBy('created_at', 'desc');
+
+            if (!empty($filterRecordOptionsPayload['organization_id'])) {
+            $query->where('organization_id', $filterRecordOptionsPayload['organization_id']);
+        }
+
+        if (!empty($filterRecordOptionsPayload['location_id'])) {
+            $query->where('location_id', $filterRecordOptionsPayload['location_id']);
+        }
+
+        if (!empty($filterRecordOptionsPayload['beneficiary_id'])) {
+            $query->where('beneficiary_id', $filterRecordOptionsPayload['beneficiary_id']);
+        }
 
         if ($paginationPayload) {
             $paginatedBeneficiaryReferrals = $query->paginate(

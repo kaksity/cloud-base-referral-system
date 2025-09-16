@@ -6,28 +6,32 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CreateBeneficiaryRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            'page' => ['nullable', 'integer', 'min:1'],
-            'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
+            'basic_information.first_name' => ['required', 'string', 'max:255'],
+            'basic_information.middle_name' => ['nullable', 'string', 'max:255'],
+            'basic_information.last_name' => ['required', 'string', 'max:255'],
+            'basic_information.gender' => ['required', 'string', 'in:male,female,other'],
+            'basic_information.address' => ['nullable', 'string'],
+            'basic_information.note' => ['nullable', 'string'],
+            'basic_information.age_group' => ['required', 'string'],
+            'basic_information.other_attributes' => ['nullable'],
+            'basic_information.profile_photo_url' => ['nullable', 'url', 'max:2048'],
+            'referral.organization_id' => ['nullable', 'uuid'],
+            'referral.services' => ['nullable', 'array', 'min:1'],
+            'referral.services.*' => ['required', 'string'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'page.integer' => 'The page number must be an integer.',
-            'page.min' => 'The page number must be at least 1.',
-
-            'per_page.integer' => 'The per page value must be an integer.',
-            'per_page.min' => 'The per page value must be at least 1.',
-            'per_page.max' => 'The per page value may not be greater than 100.',
+            'first_name.required' => 'The first name is required.',
+            'last_name.required' => 'The last name is required.',
+            'gender.in' => 'Gender must be male, female, or other.',
+            'other_attributes.json' => 'The other attributes field must be a valid JSON object.',
+            'profile_photo_url.url' => 'The profile photo must be a valid URL.',
         ];
     }
 }

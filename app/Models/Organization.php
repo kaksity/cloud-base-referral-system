@@ -8,4 +8,9 @@ class Organization extends AbstractModel
     {
         return $this->belongsTo(SystemAdmin::class, 'added_by_system_admin_id');
     }
+
+    public function services()
+    {
+        return $this->hasMany(Service::class, 'organization_id');
+    }
 }

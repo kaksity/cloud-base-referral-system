@@ -17,9 +17,4 @@ class BeneficiaryReferral extends AbstractModel
     {
         return $this->belongsTo(Location::class, 'location_id');
     }
-
-    public function service()
-    {
-        return $this->belongsTo(Service::class, 'service_id');
-    }
 }

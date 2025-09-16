@@ -17,7 +17,12 @@ class FetchBeneficiariesResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'full_name' => "{$this->first_name} {$this->middle_name} {$this->last_name}",
+            'age_group' => $this->age_group,
+            'address' => $this->address,
+            'referred_services' => [],
+            'profile_photo_url' => $this->profile_photo_url,
+            'status' => $this->status,
         ];
     }
 }

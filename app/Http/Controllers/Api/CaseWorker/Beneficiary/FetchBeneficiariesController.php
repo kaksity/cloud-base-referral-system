@@ -17,9 +17,12 @@ class FetchBeneficiariesController extends Controller
     {
         $loggedInCaseWorker = auth('case-worker')->user();
 
+        $validatedRequest = $request->validated();
+
         ['beneficiary_payload' => $beneficiaries, 'pagination_payload' => $paginationPayload] = $this->listBeneficiariesAction->execute([
             'filter_record_options_payload' => [
                 'added_by_case_worker_id' => $loggedInCaseWorker->id,
+                'status' => $validatedRequest['status'] ?? null,
             ],
             'pagination_payload' => [
                 'page' => $request->page ?? 1,

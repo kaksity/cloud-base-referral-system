@@ -16,7 +16,10 @@ class ReferBeneficiaryController extends Controller
 
     public function __invoke(ReferBeneficiaryRequest $request)
     {
+        $loggedInCaseWorker = auth('case-worker')->user();
+
         $validatedRequest =  $request->validated();
+
         $beneficiaryReferral = $this->confirmBeneficiaryReferralAction->execute(
             $validatedRequest
         );
@@ -26,7 +29,10 @@ class ReferBeneficiaryController extends Controller
         }
 
         $this->createBeneficiaryReferralAction->execute(
-            $validatedRequest
+            array_merge($validatedRequest, [
+                'location_id' => $loggedInCaseWorker->current_location_id,
+                'services' => json_encode($validatedRequest['services'] ?? [])
+            ])
         );
 
 
