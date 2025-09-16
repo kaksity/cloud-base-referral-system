@@ -18,20 +18,25 @@ class BeneficiariesTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->searchable(),
                 TextColumn::make('first_name')
-                    ->searchable(),
-                TextColumn::make('middle_name')
-                    ->searchable(),
-                TextColumn::make('last_name')
+                    ->label('Beneficiary')
+                    ->formatStateUsing(fn($record) => trim(
+                        "{$record->first_name} {$record->middle_name} {$record->last_name}"
+                    ))
                     ->searchable(),
                 TextColumn::make('gender')
                     ->searchable(),
                 TextColumn::make('added_by_case_worker_id')
+                    ->label('Add By Case Worker')
+                    ->formatStateUsing(fn($record) => trim(
+                        "{$record->addedByCaseWorker->first_name} {$record->addedByCaseWorker->middle_name} {$record->addedByCaseWorker->last_name}"
+                    ))
                     ->searchable(),
                 TextColumn::make('location_id')
+                    ->label('Location')
+                    ->formatStateUsing(fn($record) => trim(
+                        "{$record->location->name}, {$record->location->ward->name}, {$record->location->localGovernmentArea->name}, {$record->location->state->name}"
+                    ))
                     ->searchable(),
                 TextColumn::make('age_group')
                     ->searchable(),
