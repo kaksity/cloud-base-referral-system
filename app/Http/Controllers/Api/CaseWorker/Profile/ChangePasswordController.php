@@ -1,31 +1,31 @@
 <?php
 
-namespace App\Http\Controllers\Web\SystemAdmin\Settings\Password;
+namespace App\Http\Controllers\Api\CaseWorker\Profile;
 
 use App\Actions\SystemAdmin\UpdateSystemAdminAction;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Web\SystemAdmin\Settings\Password\ProcessChangePasswordRequest;
+use App\Http\Requests\Api\CaseWorker\Profile\ChangePasswordRequest;
 use Illuminate\Support\Facades\Hash;
 
-class ProcessChangePasswordController extends Controller
+class ChangePasswordController extends Controller
 {
     public function __construct(
         private UpdateSystemAdminAction $updateSystemAdminAction
     ) {}
 
-    public function __invoke(ProcessChangePasswordRequest $request)
+    public function __invoke(ChangePasswordRequest $request)
     {
-        $loggedInSystemAdmin = auth('system-admin')->user();
+        $loggedInUser = auth('case-worker')->user();
 
         $validatedRequest = $request->validated();
 
         $this->updateSystemAdminAction->execute([
-            'id' => $loggedInSystemAdmin->id,
+            'id' => $loggedInUser->id,
             'data' => [
                 'password' => Hash::make($validatedRequest['password'])
             ]
         ]);
 
-        return back();
+        return generateSuccessApiMessage('Password was changed successfully');
     }
 }

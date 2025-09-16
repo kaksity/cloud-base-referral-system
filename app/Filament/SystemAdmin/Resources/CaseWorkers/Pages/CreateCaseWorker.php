@@ -18,7 +18,8 @@ class CreateCaseWorker extends CreateRecord
 
         $data['added_by_system_admin_id'] = $loggedInSystemAdmin->id;
 
-        $this->generatedPassword =  generateRandomString();
+        $this->generatedPassword =  'password';
+        // generateRandomString();
 
         $data['password'] = Hash::make($this->generatedPassword);
 

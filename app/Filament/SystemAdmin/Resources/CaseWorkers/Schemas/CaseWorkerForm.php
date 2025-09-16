@@ -44,6 +44,8 @@ class CaseWorkerForm
                     ->label('Email address')
                     ->email()
                     ->required(),
+                TextInput::make('mobile_number')
+                    ->required(),
                 Select::make('status')
                     ->options([
                         'active' => 'Active',

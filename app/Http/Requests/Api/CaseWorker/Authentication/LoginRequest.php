@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Web\SystemAdmin\Settings\Password;
+namespace App\Http\Requests\Api\CaseWorker\Authentication;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Password;
 
-class ProcessChangePasswordRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,8 +14,8 @@ class ProcessChangePasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'current_password' => ['required', 'current_password'],
-            'password' => ['required', Password::defaults(), 'confirmed'],
+            'email' => ['required', 'string', 'email'],
+            'password' => ['required', 'string'],
         ];
     }
 }

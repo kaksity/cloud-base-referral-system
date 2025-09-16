@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('middle_name')->nullable();
             $table->string('last_name');
             $table->string('email');
+            $table->string('mobile_number')->nullable();
             $table->string('password');
             $table->string('status')->default('active');
             $table->timestamps();
