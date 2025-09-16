@@ -16,7 +16,6 @@ class FetchSectorsResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'country' => $this->country->name,
             'name' => $this->name,
         ];
     }
